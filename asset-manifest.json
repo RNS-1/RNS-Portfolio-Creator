@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/RNS_Portfolio_Creator/static/css/main.63659ecc.css",
+    "main.js": "/RNS_Portfolio_Creator/static/js/main.9862a669.js",
+    "static/js/453.4e42692d.chunk.js": "/RNS_Portfolio_Creator/static/js/453.4e42692d.chunk.js",
+    "index.html": "/RNS_Portfolio_Creator/index.html",
+    "main.63659ecc.css.map": "/RNS_Portfolio_Creator/static/css/main.63659ecc.css.map",
+    "main.9862a669.js.map": "/RNS_Portfolio_Creator/static/js/main.9862a669.js.map",
+    "453.4e42692d.chunk.js.map": "/RNS_Portfolio_Creator/static/js/453.4e42692d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.63659ecc.css",
+    "static/js/main.9862a669.js"
+  ]
+}
