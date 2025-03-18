@@ -1,9 +1,9 @@
 {
-  "name": "RNS_Portfolio_Creator,",
+  "name": "RNS-Portfolio-Creator,",
   "description": "RNS Portfolio Creator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://rns-1.github.io/RNS_Portfolio_Creator",
+  "homepage": "https://rns-1.github.io/RNS-Portfolio-Creator",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
