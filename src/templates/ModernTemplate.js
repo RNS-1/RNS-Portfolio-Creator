@@ -3,12 +3,7 @@ import React from 'react';
 const ModernTemplate = ({ data, onBack }) => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <button
-        onClick={onBack}
-        className="fixed top-4 left-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 z-50"
-      >
-        Back to Generator
-      </button>
+      
 
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20">
