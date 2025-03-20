@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/RNS-Portfolio-Creator/static/css/main.318ab52b.css",
-    "main.js": "/RNS-Portfolio-Creator/static/js/main.d5b90566.js",
+    "main.css": "/RNS-Portfolio-Creator/static/css/main.818497d5.css",
+    "main.js": "/RNS-Portfolio-Creator/static/js/main.39bc0d4a.js",
     "static/js/453.b38c59f4.chunk.js": "/RNS-Portfolio-Creator/static/js/453.b38c59f4.chunk.js",
     "index.html": "/RNS-Portfolio-Creator/index.html",
-    "main.318ab52b.css.map": "/RNS-Portfolio-Creator/static/css/main.318ab52b.css.map",
-    "main.d5b90566.js.map": "/RNS-Portfolio-Creator/static/js/main.d5b90566.js.map",
+    "main.818497d5.css.map": "/RNS-Portfolio-Creator/static/css/main.818497d5.css.map",
+    "main.39bc0d4a.js.map": "/RNS-Portfolio-Creator/static/js/main.39bc0d4a.js.map",
     "453.b38c59f4.chunk.js.map": "/RNS-Portfolio-Creator/static/js/453.b38c59f4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.318ab52b.css",
-    "static/js/main.d5b90566.js"
+    "static/css/main.818497d5.css",
+    "static/js/main.39bc0d4a.js"
   ]
 }
