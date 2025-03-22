@@ -31,9 +31,20 @@ const App = () => {
         const workbook = XLSX.read(data, { type: 'array' });
         const firstSheet = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[firstSheet];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
-        setPortfolioData(jsonData[0]); // Assuming first row contains all the data
+        // Read the first column as vertical data
+        const jsonData = {};
+        const range = XLSX.utils.decode_range(worksheet['!ref']);
+        for (let R = range.s.r; R <= range.e.r; ++R) {
+          const cellRefKey = XLSX.utils.encode_cell({ r: R, c: 0 });
+          const cellRefValue = XLSX.utils.encode_cell({ r: R, c: 1 });
+          if (!worksheet[cellRefKey] || !worksheet[cellRefValue]) continue;
+          const key = worksheet[cellRefKey].v;
+          const value = worksheet[cellRefValue].v;
+          jsonData[key] = value;
+        }
+
+        setPortfolioData(jsonData); // Assuming the first column contains all the data
         setShowPortfolio(true);
         setIsLoading(false);
       } catch (error) {
@@ -47,34 +58,34 @@ const App = () => {
   };
 
   const downloadSampleExcel = () => {
-    const sampleData = [{
-      fullName: "John Doe",
-      title: "Full Stack Developer",
-      email: "john@example.com",
-      phone: "123-456-7890",
-      location: "New York, USA",
-      about: "Passionate developer with 5+ years of experience building web applications.",
-      skills: "React, Node.js, JavaScript, TypeScript, HTML, CSS, MongoDB",
-      github: "https://github.com/johndoe",
-      linkedin: "https://linkedin.com/in/johndoe",
-      projectTitle1: "E-commerce Platform",
-      projectDesc1: "Built a full-stack e-commerce platform with React and Node.js",
-      projectImg1: "placeholder",
-      projectTitle2: "Portfolio Generator",
-      projectDesc2: "Created a tool that generates portfolios from Excel data",
-      projectImg2: "placeholder",
-      projectTitle3: "Task Management App",
-      projectDesc3: "Developed a task management application with drag and drop features",
-      projectImg3: "placeholder",
-      experience1: "Senior Developer at Tech Co (2020-Present)",
-      experienceDesc1: "Leading front-end development team for enterprise applications",
-      experience2: "Web Developer at StartUp Inc (2018-2020)",
-      experienceDesc2: "Developed responsive websites and improved performance",
-      education1: "Master's in Computer Science, Tech University (2018)",
-      education2: "Bachelor's in Software Engineering, State University (2016)"
-    }];
+    const sampleData = [
+      { key: "fullName", value: "John Doe" },
+      { key: "title", value: "Full Stack Developer" },
+      { key: "email", value: "john@example.com" },
+      { key: "phone", value: "123-456-7890" },
+      { key: "location", value: "New York, USA" },
+      { key: "about", value: "Passionate developer with 5+ years of experience building web applications." },
+      { key: "skills", value: "React, Node.js, JavaScript, TypeScript, HTML, CSS, MongoDB" },
+      { key: "github", value: "https://github.com/johndoe" },
+      { key: "linkedin", value: "https://linkedin.com/in/johndoe" },
+      { key: "projectTitle1", value: "E-commerce Platform" },
+      { key: "projectDesc1", value: "Built a full-stack e-commerce platform with React and Node.js" },
+      { key: "projectImg1", value: "placeholder" },
+      { key: "projectTitle2", value: "Portfolio Generator" },
+      { key: "projectDesc2", value: "Created a tool that generates portfolios from Excel data" },
+      { key: "projectImg2", value: "placeholder" },
+      { key: "projectTitle3", value: "Task Management App" },
+      { key: "projectDesc3", value: "Developed a task management application with drag and drop features" },
+      { key: "projectImg3", value: "placeholder" },
+      { key: "experience1", value: "Senior Developer at Tech Co (2020-Present)" },
+      { key: "experienceDesc1", value: "Leading front-end development team for enterprise applications" },
+      { key: "experience2", value: "Web Developer at StartUp Inc (2018-2020)" },
+      { key: "experienceDesc2", value: "Developed responsive websites and improved performance" },
+      { key: "education1", value: "Master's in Computer Science, Tech University (2018)" },
+      { key: "education2", value: "Bachelor's in Software Engineering, State University (2016)" }
+    ];
 
-    const worksheet = XLSX.utils.json_to_sheet(sampleData);
+    const worksheet = XLSX.utils.json_to_sheet(sampleData, { header: ["key", "value"], skipHeader: true });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Portfolio Data");
     XLSX.writeFile(workbook, "portfolio_template.xlsx");
@@ -132,7 +143,7 @@ const App = () => {
   return (
     <div className={`min-h-screen bg-black relative overflow-hidden transition-all duration-700 ${animate ? 'opacity-100' : 'opacity-0'}`}>
       <style>{bgAnimation}</style>
-      
+
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 -left-10 w-72 h-72 bg-purple-700 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
@@ -179,7 +190,7 @@ const App = () => {
                       selectedTemplate === template.id ? 'ring-2 ring-white scale-105' : ''
                     }`}
                   >
-                    <div 
+                    <div
                       className={`bg-gradient-to-br ${template.color} h-48 relative overflow-hidden`}
                     >
                       {/* Template preview elements */}
@@ -193,7 +204,7 @@ const App = () => {
 
                       {/* Accent effect */}
                       <div className={`absolute -right-12 -top-12 w-24 h-24 rounded-full bg-${template.accentColor}-500 blur-xl opacity-30`}></div>
-                      
+
                       {/* Template name */}
                       <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 backdrop-filter backdrop-blur-sm p-4">
                         <div className="flex items-center">
@@ -206,7 +217,7 @@ const App = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Selection indicator */}
                       {selectedTemplate === template.id && (
                         <div className="absolute top-3 right-3 bg-white rounded-full p-1 shadow-lg">
@@ -216,11 +227,11 @@ const App = () => {
                         </div>
                       )}
                     </div>
-                    
+
                     {/* Interactive footer */}
                     <div className={`p-3 bg-gradient-to-br from-black to-gray-900 border-t border-gray-800 flex justify-between items-center`}>
                       <div className={`h-2 w-12 rounded-full bg-${template.accentColor}-500`}></div>
-                      <button 
+                      <button
                         className={`text-xs px-3 py-1 rounded-full border border-gray-700 text-gray-300 hover:bg-${template.accentColor}-800 hover:text-white transition-colors duration-300`}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -295,7 +306,7 @@ const PortfolioTemplate = ({ data, templateId, onBack }) => {
   return (
     <div className={`transition-opacity duration-700 ${animate ? 'opacity-100' : 'opacity-0'}`}>
       <div className="fixed top-4 left-4 z-50">
-        <button 
+        <button
           onClick={onBack}
           className="bg-black text-white px-4 py-2 rounded-lg shadow-lg hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl flex items-center border border-gray-700"
         >
@@ -305,7 +316,7 @@ const PortfolioTemplate = ({ data, templateId, onBack }) => {
           Back
         </button>
       </div>
-      
+
       {templateId === 1 && <MinimalistTemplate data={data} />}
       {templateId === 2 && <ModernTemplate data={data} />}
       {templateId === 3 && <CreativeTemplate data={data} />}

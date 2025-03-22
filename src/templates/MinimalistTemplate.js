@@ -170,7 +170,7 @@ const EnhancedMinimalistTemplate = ({ data, onback }) => {
             onClick={downloadPortfolio}
             className="bg-indigo-600 text-white py-2 px-4 rounded-full shadow-md hover:shadow-lg transition-all"
           >
-            Download Portfolio
+            Download Sample Resume
           </motion.button>
         </div>
       </nav>
