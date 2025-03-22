@@ -3,6 +3,7 @@ import * as XLSX from 'xlsx';
 import MinimalistTemplate from './templates/MinimalistTemplate';
 import ModernTemplate from './templates/ModernTemplate';
 import CreativeTemplate from './templates/CreativeTemplate';
+import Toast from './Toast'; // Import the Toast component
 
 const App = () => {
   const [portfolioData, setPortfolioData] = useState(null);
@@ -10,6 +11,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPortfolio, setShowPortfolio] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [toastMessage, setToastMessage] = useState(''); // State for toast message
 
   useEffect(() => {
     // Trigger animation after component mounts
@@ -21,6 +23,13 @@ const App = () => {
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    // Check if the file is an Excel file
+    const validFileTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+    if (!validFileTypes.includes(file.type)) {
+      setToastMessage("Invalid file type. Please upload an Excel file (.xlsx or .xls).");
+      return;
+    }
 
     setIsLoading(true);
     const reader = new FileReader();
@@ -44,13 +53,20 @@ const App = () => {
           jsonData[key] = value;
         }
 
+        // Check if required data is present
+        if (!jsonData.fullName) {
+          setToastMessage("Invalid file format. Please ensure the file contains the required data.");
+          setIsLoading(false);
+          return;
+        }
+
         setPortfolioData(jsonData); // Assuming the first column contains all the data
         setShowPortfolio(true);
         setIsLoading(false);
       } catch (error) {
         console.error("Error parsing Excel file:", error);
+        setToastMessage("Error parsing the Excel file. Please make sure it's in the correct format.");
         setIsLoading(false);
-        alert("Error parsing the Excel file. Please make sure it's in the correct format.");
       }
     };
 
@@ -150,6 +166,9 @@ const App = () => {
         <div className="absolute top-0 -right-10 w-72 h-72 bg-yellow-700 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-10 left-20 w-72 h-72 bg-pink-700 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000"></div>
       </div>
+
+      {/* Toast Notification */}
+      {toastMessage && <Toast message={toastMessage} onClose={() => setToastMessage('')} />}
 
       {!showPortfolio ? (
         <div className="container mx-auto py-12 px-4 relative z-10">
